@@ -1,0 +1,73 @@
+---
+title: Commit message format
+---
+
+## Status
+
+Accepted
+
+## Context
+
+Commit messages should be easily identifiable, straight to the point and
+explain why changes have been made instead of what has been changed.
+
+In order to achieve this we should write commit messages according to the
+following rules:
+
+1. Separate subject from body with a blank line
+2. Limit the subject line to 50 characters
+3. Capitalize the subject line
+4. Do not end the subject line with a period
+5. Use the imperative mood in the subject line
+6. Wrap the body at 72 characters
+7. Use the body to explain what and why vs. how
+8. Add references to the issue tracker at the bottom of your commit message
+9. Add references to Sentry issues if there are any below the issue tracker references
+
+### Example of a good commit message
+
+```
+Summarize changes in around 50 characters or less
+
+More detailed explanatory text, if necessary. Wrap it to about 72
+characters or so. In some contexts, the first line is treated as the
+subject of the commit and the rest of the text as the body. The
+blank line separating the summary from the body is critical (unless
+you omit the body entirely); various tools like `log`, `shortlog`
+and `rebase` can get confused if you run the two together.
+
+Explain the problem that this commit is solving. Focus on why you
+are making this change as opposed to how (the code explains that).
+Are there side effects or other unintuitive consequences of this
+change? Here's the place to explain them.
+
+Further paragraphs come after blank lines.
+
+ - Bullet points are okay, too
+
+ - Typically a hyphen or asterisk is used for the bullet, preceded
+   by a single space, with blank lines in between, but conventions
+   vary here
+
+Please put references to the issue tracker at the bottom,
+like this:
+
+Resolves: #123
+See also: #456, #789
+
+Please put references to sentry issues below this,
+like so:
+
+Fixes SENTRY-317
+```
+
+For a more detailed explanation please see [How to write commit messages](https://cbea.ms/git-commit/)
+
+## Decision
+
+Follow the proposed 7 rules for commit messages
+
+## Consequences
+
+New commit messages should be more standardised and clear to read.
+However, this might introduce more time writing commit messages.

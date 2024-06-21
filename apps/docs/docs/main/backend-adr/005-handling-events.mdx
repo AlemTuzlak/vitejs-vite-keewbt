@@ -1,0 +1,56 @@
+---
+title: 005 - Handling events
+---
+
+## Status
+
+Accepted
+
+## Context
+
+In any system, there are multiple types of events that are handled on different levels.
+The current event types we see in our application are
+
+### Domain events
+These events are dispatched only by our core application in the application or domain layer.
+They signify important moments in our domain and are used to communicate between different components.
+
+Events of this type can be listened to from anywhere within our system eg.
+- Other components to react to changes made elsewhere
+- The same component to other type of work
+- Infrastructure, to sync data to 3rd parties
+
+### Framework events
+These events are dispatched only by the framework in use and should never enter our application.
+
+Events of this type can only be listened to in the infrastructure layer.
+
+The purpose of these events is to allow us to deal with specific framework events like these examples from Symfony
+- kernel.request
+- kernel.controller
+- kernel.controller_arguments
+- kernel.view
+
+### External Events
+These events are dispatched by our presentation layer as a response to either webhooks or CLI commands that poll external systems.
+They signify changes made by other systems that we might be interested in.
+
+These events may also pass along the original payload to it's handler so it can handle it further.
+We avoid parsing this payload into a DTO at this point to avoid coupling our code to external input.
+This because, we do not own this input ourselve and the third party might decide to change it at any point breaking our
+implementation immediately. By having the payload as part of the queueable event, we can leverage the Queue to ensure
+that if the payload changes, the message would get stuck in the queue and we can fix the issue and retry them later.
+
+Events of this type can only be listened to in the infrastructure layer eg.
+- Paypal webhook about disputes of which the payload is normalised in a paypal specific listener
+- Adyen webhook about disputes of which the paypal is normalised in a adyen specific listener
+
+The purpose of these events is to ensure our webhooks can respond to the external parties very quickly, as is often best practise.
+And divert the normalisation process to a listener for that purpose. This listener then in turn will dispatch any commands
+when our application needs to handle the event further.
+
+## Decision
+
+- Any event must be serialisable.
+- All events will go through the same event bus.
+- All events will implement an interface of the type that they belong to.

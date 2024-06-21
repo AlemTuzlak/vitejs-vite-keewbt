@@ -1,0 +1,57 @@
+---
+title: Test group naming
+---
+
+## Status
+
+- Accepted
+
+## Problem
+
+To ensure all tests adhere to the same type of group name convention, we should all agree on what types of
+test groups we have and why they belong there.
+
+These groups should be added to all tests by using a `@group` phpdoc block above the class of the test.
+
+## Solution
+
+This list of test naming should cover all types of test cases
+- *Acceptance*:
+    - Written by a product owner or business people and test end-to-end.
+    - It boots up the application.
+- *End-to-end*:
+    - Tests from the UI onto the persistence mechanism.
+    - 3rd party code
+    - The UI might be a graphical UI used by humans, or an API, used by 3rd party systems.
+    - It boots up the application.
+- *Functional*:
+    - Tests a set of business logic. Ie a use case (Command/handler), or a service method.
+    - It boots up the application, either to dispatch a command, an event, or to get a
+      service to execute one of its methods.
+- *Integration*:
+    - Tests the integration of our application with external systems, where an external system can be:
+        - a database
+        - a 3rd party API
+        - a cross cutting library
+        - a delivery mechanism, ie:
+    - HTTP: Test that when an HTTP request reaches the application, it dispatches a specific command.
+        - The result of the command being dispatched should be tested with a functional test though.
+    - CLI:  Test that when an CLI command is run, it dispatches a specific command.
+        - The result of the command being dispatched should be tested with a functional test though.
+   - It boots up the application.
+- *Micro*:
+    - Tests a small group of methods or classes, without needing to boot up the application.
+    - It does NOT boot up the application.
+
+## Technical value
+Having a clear definition will help us:
+ - Not discuss it further in MRs
+ - Create tests groups, which will allow us to run only specific groups at specific times to reduce the time a test suite takes to run.
+
+## NOTES
+Reading material:
+ - [First-Class Tests by Uncle Bob](https://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.html)
+ - [Uncle Bob on Twitter #01](https://twitter.com/unclebobmartin/status/1081750157929181184)
+ - [Uncle Bob on Twitter #01](https://twitter.com/unclebobmartin/status/1081177984466407424?lang=en)
+ - [IntegrationTest by Martin Fowler](https://martinfowler.com/bliki/IntegrationTest.html)
+ - [UnitTest by Martin Fowler](https://martinfowler.com/bliki/UnitTest.html)

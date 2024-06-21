@@ -1,0 +1,126 @@
+---
+title: "How to write documentation"
+description: "Detailed guide for writing documentation."
+---
+
+## Documentation architecture
+
+The main documentation is located under the `docs` folder under the root of the project.
+
+Under the main folder you will find a `versions.json` file used to create the versioning dropdown in the header (invisible if no more than one)
+
+You can create new folders under the `docs` folder to create new versions of the documentation.
+
+If you decide to do this you should copy over the latest version of the documentation to the new folder and start editing from there.
+
+### versions.json
+
+This file is located under the root of the `docs` folder and is used to create the versioning dropdown in the header.
+In order to add a new version you should add a new object to the array with the following structure:
+
+```json
+{
+	"version": "1.0.0",
+	"tag": "main"
+}
+```
+
+### Version folder structure
+
+The structure of the documentation is as follows:
+
+```
+docs
+├── version-folder
+│   ├── group1
+│   │   ├── index.md
+│   │   ├── writing-docs.mdx
+│   ├── group2
+│   │   ├── index.md
+│   │   ├── quick-start.mdx
+│   ├── metadata.json
+```
+
+The main folder contains all your documentation and you can use folders to group your documentation into categories.
+Each version folder (in this case main) contains a `metadata.json` file that is used to create the sidebar navigation.
+
+The `metadata.json` file should have the following structure:
+
+```json
+{
+	"paths": {
+		"slug": "path/to/file",
+		// eg:
+		"quick-start": "started/quick-start"
+	},
+	"sections": [
+		// Used to group docs into sections
+		"Backend",
+		"Frontend"
+	],
+	"meta": {
+		"slug": {
+			"title": "Shown in the left sidebar",
+			"section": "The section where the doc is placed (has to match the sections part above)",
+			"slug": "matches the slug from the paths which tells it where to find the file"
+		}
+
+	},
+	// if it has index.mdx file
+	"hasIndex": true
+}
+```
+
+Folders represent logical groups where you can put related documentation files. Each folder can contain as many files as you want.
+The names of the files are up to you, the only thing that matters is that the `slug` value in the `metadata.json` matches the file to the path,
+eg if you have a file under `group1` folder called `quick-start.mdx` and you want to access it under the `quick-start` path you should set the
+`slug` value to `group1/quick-start`.
+
+```json
+{
+	"paths": {
+		// slug in url  | path to file
+		"quick-start": "group1/quick-start"
+	}
+}
+```
+
+After that you can add a new entry in the `meta` object with the following structure:
+
+```json
+{
+	// Matches our "paths" slug
+	"quick-start": {
+		"title": "Title of your section",
+		"section": "Description",
+		"slug": "quick-start"
+	}
+}
+```
+
+## Writing your first file
+
+### Heading & frontmatter
+When you create a new file you should add the following frontmatter:
+
+```md
+---
+title: "Your title (rendered at the top of the document)"
+description: "Description (rendered under the title)"
+hidden: false // If you want to hide the document from the sidebar
+toc: true // Table of contents on the right
+---
+// Add an empty new line after this here
+...
+```
+This instructs the documentation system how to render the title and the description and also if the TOC on the right
+should be rendered. If you want to hide the document from the sidebar you should set the `hidden` value to `true`.
+
+### Writing content
+
+You can write your content in markdown or MDX. If you want to use MDX you should use the `.mdx` extension. We recommend
+using MDX regardless of the content as it allows you to use React components in your documentation.
+
+The following section on components will show you how to use them in your documentation.
+
+After you have written your content you should add the file to the `metadata.json` file in the version folder.

@@ -1,0 +1,52 @@
+---
+title: Abolish Interface suffix
+---
+
+## Status
+
+Approved
+16-5-2023
+
+## Context
+
+The `Interface` suffix can be seen as redundant as our code wants an implementation to work with and not an interface.
+For that matter, `Interface` is just a tool to ensure we follow a certain "contract" when creating an implementation.
+Which implementation our code ends up using, doesn't matter as much.
+
+As such, we stop using the `Interface` suffix in order to ensure our implementations are named with what they do rather than
+naming interfaces with the suffix to differentiate them.
+
+We cannot change external code, and since we do allow the usage of PSR interfaces, we will not enforce our naming schema on them.
+
+### Example
+```php
+interface HttpClient
+{
+    public function get(string $url): Psr\ResponseInterface;
+}
+
+final class SymfonyHttpClient implements HttpClient
+{
+    public function get(string $url): Psr\ResponseInterface
+    {
+        // ... Implementation
+    }
+}
+
+final class ApiClient
+{
+    public function __construct(
+        private HttpClient $httpClient // This gets injected the SymfonyHttpClient
+    ) {
+    }
+}
+```
+
+As you can see here, the Api client looks a lot cleaner by just having the `HttpClient` rather than a `HttpClientInterface`,
+it also does not 'care' that it's talking to an `Interface`.
+
+
+## Decision
+
+Abolish the usage of the `Interface` suffix entirely for our own codebase.
+Accepted external sources like `Psr` can still have the `Interface` suffix.

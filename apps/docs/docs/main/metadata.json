@@ -1,0 +1,79 @@
+{
+	"paths": {
+		"quick-start": "started/quick-start",
+		"writing-docs": "guides/writing-docs",
+		"components": "guides/components",
+		"backend-adr-000": "backend-adr/000-template",
+		"backend-adr-001": "backend-adr/001-trunk-based-development",
+		"backend-adr-002": "backend-adr/002-commit-message-format",
+		"backend-adr-003": "backend-adr/003-test-group-naming",
+		"backend-adr-004": "backend-adr/004-abolish-interface-suffix",
+		"backend-adr-005": "backend-adr/005-handling-events",
+		"backend-adr-006": "backend-adr/006-exception-setup",
+		"frontend-adr-000": "frontend-adr/000-template"
+	},
+	"sections": [
+		"Getting Started",
+		"Guides",
+		"Backend ADRs",
+		"Frontend ADRs"
+	],
+	"meta": {
+		"quick-start": {
+			"title": "Quick Start Guide",
+			"section": "Getting Started",
+			"slug": "quick-start"
+		},
+		"writing-docs": {
+			"title": "Writing Documentation",
+			"section": "Guides",
+			"slug": "writing-docs"
+		},
+		"components": {
+			"title": "Components",
+			"section": "Guides",
+			"slug": "components"
+		},
+		"backend-adr-000": {
+			"title": "Backend ADR Template",
+			"section": "Backend ADRs",
+			"slug": "backend-adr-000"
+		},
+		"backend-adr-001": {
+			"title": "Trunk Based Development",
+			"section": "Backend ADRs",
+			"slug": "backend-adr-001"
+		},
+		"backend-adr-002": {
+			"title": "Commit Message Format",
+			"section": "Backend ADRs",
+			"slug": "backend-adr-002"
+		},
+		"backend-adr-003": {
+			"title": "Test Group Naming",
+			"section": "Backend ADRs",
+			"slug": "backend-adr-003"
+		},
+		"backend-adr-004": {
+			"title": "Abolish Interface Suffix",
+			"section": "Backend ADRs",
+			"slug": "backend-adr-004"
+		},
+		"backend-adr-005": {
+			"title": "Handling Events",
+			"section": "Backend ADRs",
+			"slug": "backend-adr-005"
+		},
+		"backend-adr-006": {
+			"title": "Exception Setup",
+			"section": "Backend ADRs",
+			"slug": "backend-adr-006"
+		},
+		"frontend-adr-000": {
+			"title": "Frontend ADR Template",
+			"section": "Frontend ADRs",
+			"slug": "frontend-adr-000"
+		}
+	},
+	"hasIndex": true
+}

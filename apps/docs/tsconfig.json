@@ -1,0 +1,13 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "../../tsconfig.remix.json",
+	"include": ["**/*.ts", "**/*.tsx", "./*.ts", "./*.tsx"],
+	"compilerOptions": {
+		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["./app/*"]
+		},
+
+	}
+}

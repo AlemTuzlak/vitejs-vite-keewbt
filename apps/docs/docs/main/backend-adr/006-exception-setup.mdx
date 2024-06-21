@@ -1,0 +1,30 @@
+---
+title: Exception setup
+---
+
+## Status
+
+Accepted
+
+## Context
+
+To ease differentiating between categories of exceptions that occur within our application we
+create our own base exceptions that we extend from. These Exceptions fall into 2 categories.
+
+- **Logic exceptions** point to bugs in our code and should almost never occur, instead they should be caught
+by our tooling (tests, phpstan) before reaching production.
+  - **BadMethodCallException**
+  - **InvalidArgumentException**
+
+- **Runtime exceptions** These point to things that can only occur during runtime. Due to their nature, these will be the majority of our
+  exceptions.
+  - **Input exceptions**, are based on the input of the user, these can usually be solved by the user by fixing their input.
+  - **System Exceptions**, these are things the user has no impact on and will have to try again at a later time.
+    Examples hereof are 3rd party API outages, misconfigurations, or expired credentials.
+
+![Base exception structure](backend-adr/exceptional_exception_management.jpg)
+
+## Decision
+
+Our code should not depend on the default php exceptions, but intead throw our own custom implementations of these.
+This allows our code to always rely on these default types and based on their type return different errors to the user.

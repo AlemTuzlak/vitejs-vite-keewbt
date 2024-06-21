@@ -1,0 +1,26 @@
+import { type LoaderFunctionArgs, json } from "@remix-run/node"
+
+import { getPostContent, getPreviousAndNextRoutes } from "~/.server/doc"
+import { mdxToHtml } from "~/.server/mdx"
+import { Documentation } from "~/components/layout/Documentation"
+
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+	const tag = params.tag ?? "main"
+	const slug = params.slug as string
+
+	const postContent = (await getPostContent(tag, slug)) ?? "" // handle null cases later
+	const { code, frontmatter } = await mdxToHtml(postContent)
+	const [prev, next] = await getPreviousAndNextRoutes(tag, slug)
+
+	return json({
+		frontmatter,
+		code,
+		next,
+		prev,
+		tag,
+	})
+}
+
+export default function DocRoute() {
+	return <Documentation />
+}
