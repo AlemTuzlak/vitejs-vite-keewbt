@@ -1,0 +1,10 @@
+{
+  "name": "core-application",
+  "private": true,
+  "sideEffects": false,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
+}
