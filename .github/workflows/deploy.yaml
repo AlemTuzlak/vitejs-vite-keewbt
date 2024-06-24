@@ -1,0 +1,52 @@
+name: Deploy PR Previews
+
+concurrency:
+  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, reopened, synchronize] # 'closed' could be used to clean up the PR review app (undeploy)
+
+jobs:
+  deploy_pr_review:
+    name: "Deploy Preview: ${{ matrix.app }} for PR#${{ github.event.number }}"
+    runs-on: ubuntu-latest
+    env:
+      APP_FULL_NAME: "${{ vars.APPS_PREFIX }}-${{ matrix.app }}-pr${{ github.event.number }}" # This is the full name for Fly. Used by fly also to create a FQDN
+      APP_NAME: ${{ matrix.app }} # This is the app name, not the full name, passed to Docker as an arg. Must match the folder name
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ["core-application", "docs"]
+    environment:
+      name: ${{ matrix.app }}-pr-preview
+      url: ${{ steps.fly_status.outputs.app_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: |
+          if ! flyctl status --app ${{ env.APP_FULL_NAME }}; then
+            flyctl launch \
+              --config "./apps/${{ env.APP_NAME }}/fly.staging.toml" \
+              --copy-config \
+              --name "${{ env.APP_FULL_NAME }}" \
+              --org "${{ vars.FLY_ORG }}" \
+              --region "${{ vars.FLY_REGION }}" \
+              --no-deploy \
+              --yes
+          fi
+          flyctl deploy \
+            --config "./apps/${{ env.APP_NAME }}/fly.staging.toml" \
+            --app "${{ env.APP_FULL_NAME }}" \
+            --build-arg "APP_NAME=${{ env.APP_NAME }}" \
+            --regions "${{ vars.FLY_REGION }}" \
+            --remote-only \
+            --ha=false \
+            --strategy immediate \
+            --now \
+            --yes
+
+        id: fly_status

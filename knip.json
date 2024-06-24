@@ -1,0 +1,23 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    "packages/*": {
+      "entry": [
+        "scripts/*.{ts,js}"
+      ],
+      "project": [
+        "**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
+        "vite.config.{ts}"
+      ]
+    },
+    "apps/*": {
+      "entry": [
+        "scripts/*.{ts,js}"
+      ],
+      "project": [
+        "**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
+        "vite.config.{ts}"
+      ]
+    }
+  }
+}
